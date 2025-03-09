@@ -202,7 +202,39 @@ class LinkedList:
         # ------------------------------------------------------------------------------
         # -------------------------- Start your code here ------------------------------
         
+        # Check if the list has at least 3 nodes as required
+        if self.head is None or self.head.next is None or self.head.next.next is None:
+            return
         
+        # First, calculate the total value of the entire list
+        total_value = 0
+        current = self.head
+        while current:
+            node_value = current.data.amount * current.data.price
+            total_value += node_value
+            current = current.next
+        
+        # Now go through each node and find the one with minimum |LValue - RValue|
+        min_diff = float('inf')
+        left_value = 0
+        current = self.head
+        
+        while current:
+            node_value = current.data.amount * current.data.price
+            # RValue is total value minus current node value minus left value
+            right_value = total_value - node_value - left_value
+            
+            # Calculate the absolute difference
+            diff = abs(left_value - right_value)
+            
+            # Update minimum difference and corresponding node
+            if diff < min_diff:
+                min_diff = diff
+                t = current.data
+            
+            # Update left_value for the next iteration
+            left_value += node_value
+            current = current.next
         
         # -------------------------- End your code here --------------------------------
         # ------------------------------------------------------------------------------
