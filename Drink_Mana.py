@@ -134,66 +134,71 @@ class LinkedList:
 
     # This function is used for Question 4
     def f4(self):
-        # ------------------------------------------------------------------------------
-        # -------------------------- Start your code here ------------------------------
-        
-        
-        # Remove last node
-        if self.head is None:
-            return
-        elif self.head == self.tail:
-            self.head = self.tail = None
-        else:
-            current = self.head
-            while current.next != self.tail:
-                current = current.next
-            current.next = None
-            self.tail = current
-        
-        
-        # Sort list in asc order (bubble sort)
-        if self.head == self.tail:
-            return
+    # ------------------------------------------------------------------------------
+    # -------------------------- Start your code here ------------------------------
     
-        swapped = True
-        while swapped:
-            swapped = False
-            
-            prev = None
-            current = self.head
-            
-            while current and current.next:
-                next_node = current.next
-                
-                if current.data.price > next_node.data.price:
-    
-                    swapped = True
-    
-                    if prev is None:
-                        current.next = next_node.next
-                        next_node.next = current
-                        self.head = next_node
-                        prev = next_node
-                    else:
-                        current.next = next_node.next
-                        next_node.next = current
-                        prev.next = next_node
-                        prev = next_node
-                
-                else:
-                    prev = current
-                    current = current.next
-    
-        
+    # Remove the last node
+    if self.head is None:
+        # List is empty
+        return
+    elif self.head == self.tail:
+        # Only one node in the list
+        self.head = self.tail = None
+    else:
+        # Find the second last node
         current = self.head
-        while current and current.next:
+        while current.next != self.tail:
             current = current.next
+        # Remove the last node
+        current.next = None
         self.tail = current
-        
-        
-        # -------------------------- End your code here --------------------------------
-        # ------------------------------------------------------------------------------
-        self.display()
+    
+    # Sort the list in ascending order of price using a simple bubble sort
+    if self.head is None or self.head == self.tail:
+        # Empty list or single node - no need to sort
+        return
+    
+    # Using bubble sort for simplicity
+    swapped = True
+    while swapped:
+        swapped = False
+        current = self.head
+        if current.next is None:
+            break
+            
+        # If head node needs to be swapped
+        if current.data.price > current.next.data.price:
+            temp = current.next
+            current.next = temp.next
+            temp.next = current
+            self.head = temp
+            swapped = True
+            
+        # Continue with the rest of the list
+        prev = self.head
+        current = self.head.next
+        while current and current.next:
+            if current.data.price > current.next.data.price:
+                # Swap nodes
+                temp = current.next
+                current.next = temp.next
+                temp.next = current
+                prev.next = temp
+                swapped = True
+                prev = temp
+            else:
+                prev = current
+                current = current.next
+    
+    # Update tail pointer after sorting
+    current = self.head
+    while current and current.next:
+        current = current.next
+    self.tail = current
+    
+    # -------------------------- End your code here --------------------------------
+    # ------------------------------------------------------------------------------
+    self.display()
 
     # This function is used for Question 5
     def f5(self):
